@@ -1,6 +1,11 @@
 {
   "name": "md-links",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "engines": {
     "node": ">=16.x"
   },
@@ -8,5 +13,24 @@
     "createdAt": "2022-11-16T21:49:06.371Z",
     "version": "5.4.0",
     "commit": "14aeca030be012fc987dcb1c604bbbcb0fdd325e"
+  },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pibmunoz/DEV001-md-links.git"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "author": "pibmunoz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pibmunoz/DEV001-md-links/issues"
+  },
+  "homepage": "https://github.com/pibmunoz/DEV001-md-links#readme",
+  "devDependencies": {
+    "jest": "^29.3.1"
   }
 }
