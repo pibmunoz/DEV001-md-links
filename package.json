@@ -32,5 +32,9 @@
   "homepage": "https://github.com/pibmunoz/DEV001-md-links#readme",
   "devDependencies": {
     "jest": "^29.3.1"
+  },
+  "dependencies": {
+    "axios": "^1.2.2",
+    "node-fetch": "^2.6.7"
   }
 }
