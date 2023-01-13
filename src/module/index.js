@@ -27,10 +27,23 @@ const isFileOrDirectory = (filePath) => {
         return 'invalid path';
     }
 };
+
+/**
+ * read synchronous directory an returns the Buffer value as a string
+*/
+const readDirectory = (directory) => fs.readdirSync(directory);
+
 /**
  * returns true if the file is a markdown file 
 */
 const isMarkdown = (filePath) => path.extname(filePath) === '.md';
+
+/**
+ * returns the path of the file to be read
+ * pathJoinDirectory('sample_folder', 'sample_two.md')
+ * // returns 'sample_folder/sample_two.md'
+ **/
+const pathJoinDirectory = (directory, file) => path.join(directory, file);
 
 /**
  * returns an array of objects with the following properties:
@@ -104,12 +117,14 @@ const readFileValidated = (filePath) => fsp.readFile(filePath, 'utf8')
 
 
 module.exports = {
-  pathExists,
-  getAbsolutePath,
-  isFileOrDirectory,
-  isMarkdown,
-  getLinks,
-  getLinksValidated,
-  readFile,
-  readFileValidated,
+    pathExists,
+    getAbsolutePath,
+    isFileOrDirectory,
+    readDirectory,
+    isMarkdown,
+    pathJoinDirectory,
+    getLinks,
+    getLinksValidated,
+    readFile,
+    readFileValidated,
 };
