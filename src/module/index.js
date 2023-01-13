@@ -165,4 +165,5 @@ module.exports = {
     getLinksValidated,
     readFile,
     readFileValidated,
+    mdLinks,
 };
