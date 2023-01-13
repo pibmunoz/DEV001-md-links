@@ -114,6 +114,44 @@ const readFileValidated = (filePath) => fsp.readFile(filePath, 'utf8')
      console.error(error + 'Error: file not found');
   });
 
+  /**
+ *  function mdLinks that receives two arguments:
+ * 1. path to file or directory
+ * 2. options object with the following property:
+ * validate: true or false
+ * returns a promise that resolves to an array of objects
+ */
+const mdLinks = (filePath, options = {}) => {
+    const absolutePath = getAbsolutePath(filePath);
+    const type = isFileOrDirectory(absolutePath);
+    return new Promise((resolve, reject) => {
+      if (!pathExists(absolutePath)) {
+        return reject(`${filePath} is not a valid path or it does not contain any links to validate`);
+      } else if (type !== 'file' && type !== 'directory') {
+        return reject(`${absolutePath} is not a file or a directory`);
+      } 
+  
+      // Declare an array of files to be read
+      let files;
+      // File case
+      if (isFileOrDirectory(absolutePath) === 'file') {
+        (!isMarkdown(absolutePath) ? reject(`${absolutePath} is not a markdown file`) : files = [absolutePath]);
+      // Directory case
+      } else {
+        files = readDirectory(absolutePath)
+          .map(file => getAbsolutePath(pathJoinDirectory(absolutePath, file)))
+          .filter(filePath => pathExists(filePath) && isMarkdown(filePath));
+        if (files.length === 0) {
+          return reject(`No markdown files found in ${absolutePath}`);
+        }
+      }
+      const promiseList = files.map(file => options.validate ? readFileValidated(file) : readFile(file));
+  
+      return Promise.all(promiseList)
+      .then(res => resolve([...res].flat(1)))
+      .catch(reject);
+  })
+  };
 
 
 module.exports = {
