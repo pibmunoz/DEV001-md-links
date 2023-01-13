@@ -1,3 +1,2 @@
 [LinkedIn](https://www.linkedin.com/in/pibmunoz/)
-
-[LinkedIn](https://www.linkedin.com/in/pilar/)
+[GitHub](https://github.com/pibmunoz/DEV001-md-links)
