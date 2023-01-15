@@ -1,8 +1,19 @@
 jest.mock('node-fetch');
 const fetch = require('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
-const { pathExists, getAbsolutePath, isFileOrDirectory, readDirectory, isMarkdown, pathJoinDirectory, getLinks, getLinksValidated, readFile, readFileValidated, mdLinks } = require('../src/module/index.js');
+const { getAbsolutePath, isFileOrDirectory, isMarkdown, pathJoinDirectory, getLinks, getLinksValidated, mdLinks } = require('../src/module/index.js');
 
+describe('getAbsolutePath', () => {
+    it('should be a function', () => {
+        expect(typeof getAbsolutePath).toBe('function');
+    });
+    it('should return an absolute path', () => {
+        expect(getAbsolutePath('sample_folder/sample_two.md')).toBe('C:\\Users\\pilar\\OneDrive\\Escritorio\\DEV001-md-links\\sample_folder\\sample_two.md');
+    });
+    it('should return the same path if the path is already absolute', () => {
+        expect(getAbsolutePath('C:\\Users\\pilar\\OneDrive\\Escritorio\\DEV001-md-links\\sample_folder\\sample_two.md')).toBe('C:\\Users\\pilar\\OneDrive\\Escritorio\\DEV001-md-links\\sample_folder\\sample_two.md');
+    })
+});
 describe('isFileOrDirectory', () => {
     it('should be a function', () => {
         expect(typeof isFileOrDirectory).toBe('function');
@@ -14,6 +25,28 @@ describe('isFileOrDirectory', () => {
         expect(isFileOrDirectory('sample_folder')).toBe('directory');
     });
 });
+
+describe('isMarkdown', () => {
+    it('should be a function', () => {
+        expect(typeof isMarkdown).toBe('function');
+    });
+    it('should return true if the file is a markdown file', () => {
+        expect(isMarkdown('sample_folder/sample_two.md')).toBe(true);
+    });
+    it('should return false if the file is not a markdown file', () => {
+        expect(isMarkdown('sample_folder/sample_two.txt')).toBe(false);
+    });
+});
+
+describe('pathJoinDirectory', () => {
+    it('should be a function', () => {
+        expect(typeof pathJoinDirectory).toBe('function');
+    });
+    it('should return the path of the file to be read', () => {
+        expect(pathJoinDirectory('sample_folder', 'sample_two.md')).toBe('sample_folder\\sample_two.md');
+    });
+});
+
 
 describe('getLinks', () => {
     it('should be a function', () => {
@@ -44,14 +77,20 @@ describe('getLinksValidated', () => {
         }]);
     });
 });
-// describe('readFile', () => {
-//     it('should be a function', () => {
-//         expect(typeof readFile).toBe('function');
-//     });
-//     it('should return ', () => {
 
-//     })
-// });
+describe('mdLinks', () => {
+    it('should be a function', () => {
+        expect(Object.prototype.toString.call(mdLinks('sample_folder').then()) === "[object Promise]").toBe(true);
+    });
+    it('should return an array of objects with the links and the text', () => {
+        expect(mdLinks('sample_folder/sample_two.md')).resolves.toStrictEqual([{
+            href: 'https://www.google.cl',
+            text: 'Google',
+            file: "C:\\Users\\pilar\\OneDrive\\Escritorio\\DEV001-md-links\\sample_folder\\sample_two.md"
+        }]);
+    });
+});
+
 
 
 

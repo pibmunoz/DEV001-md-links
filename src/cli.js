@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { mdLinks } = require('./module/index.js')
 const { welcome, help } = require('./welcome.js');
+const gradient = require('gradient-string');
 const chalk = require('chalk');
 // Receive argument via command line
 const zero = process.argv[1];
@@ -59,7 +60,6 @@ const statsOnly = (first, second, third) => (first !== undefined && ((second ===
  */
 const validateAndStats = (first, second, third) => (first !== undefined && ((second === '--stats' && third === '--validate') || (second === '--validate' && third === '--stats')));
 
-// AGREGAR EL FILEPATH AL CONSOLE.LOG
 // Conditionals to check if the user entered a valid command and execute the function mdLinks
 if (mdLinksOnly(zero, first, second, third)) {
     return welcome();
@@ -72,18 +72,25 @@ if (filePathOnly(first, second, third)) {
     });
 } else if (validateOnly(first, second, third)) {
     mdLinks(first, { validate: true }).then(data => {
-        data.forEach(elem => console.log(elem.href + ' ' + elem.ok + ' ' + elem.status + ' ' + elem.text));
+        data.forEach(elem => {
+            if (elem.ok === 'fail') {
+                console.log(chalk.grey(first) + ' ' + chalk.red(elem.href + ' ' + elem.status + ' ' + elem.text));
+            } else {
+                console.log(chalk.grey(first) +  ' ' + chalk.green(elem.href + ' ' + elem.status + ' ' + elem.text));
+            }
+        }
+        );
     });
 } else if (statsOnly(first, second, third)) {
     mdLinks(first).then(data => {
-        console.log('Total: ' + totalLinks(data))
-        console.log('Unique: ' + uniqueLinks(data));
+        console.log(chalk.bgGray(' Total: ' + totalLinks(data) + '  '))
+        console.log(chalk.bgMagenta(' Unique: ' + uniqueLinks(data) + ' '));
     });
 } else if (validateAndStats(first, second, third)) {
     mdLinks(first, { validate: true }).then(data => {
-        console.log('Total: ' + totalLinks(data));
-        console.log(chalk.blue('Unique: ' + uniqueLinks(data)));
-        console.log(chalk.red('Broken: ' + brokenLinks(data)));
+        console.log(chalk.bgGray(' Total: ' + totalLinks(data) + '  '));
+        console.log(chalk.bgMagenta(' Unique: ' + uniqueLinks(data) + ' '));
+        console.log(chalk.bgRed(' Broken: ' + brokenLinks(data) + ' '));
     });
 } else {
     console.log('Please enter a valid command');
