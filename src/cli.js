@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const { mdLinks } = require('./module/index.js')
 const { welcome, help } = require('./welcome.js');
-const gradient = require('gradient-string');
 const chalk = require('chalk');
 // Receive argument via command line
 const zero = process.argv[1];
