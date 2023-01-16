@@ -12,7 +12,7 @@ For using this package as an API, you have to use import (ESModules) or require 
 >*Note that this API is a pending promise, so you have to use .then and .catch after the module to resolve it.*
 
 *  ***path***, for the relative or absolute path where you need to enter the path of your file or directory
- * ***options***, that is an object and you can choose between `default, false and true` alternatives: the ***default (and false)*** behavior of this argument it is to **not** validate the links that are present in the path and just return the href (URL found), text and file properties of each one, the ***true*** it is to validate the links and return the same properties as before plus status(HTTP request-response) and ok('fail' or 'ok' based on the previous property).
+ * ***options***, that is an object and you can choose between `default, false and true` alternatives: the ***default (and false)*** behavior of this argument is to **not** validate the links that are present in the path and just return the href (URL found), text and file properties of each one, the ***true*** it is to validate the links and return the same properties as before plus status(HTTP request-response) and ok('fail' or 'ok' based on the previous property).
 
 # Using it as a library on CLI
 
@@ -24,4 +24,7 @@ If you just write on your cli `md-links` you will find a welcome greeting and wi
 `md-links <path>` --validate returns the links with the HTTP request-response
 `md-links <path>` --stats returns the stats (total and unique links) on your path.
 `md-links <path> --validate --stats`  returns the stats and validates (total, unique and broken links) on your path.
+
+# Flowchart of package behavior
+<img width="3586" alt="mdlinks-pibmunoz" src="https://user-images.githubusercontent.com/86972128/212780193-b66b18e6-17d9-42c4-9527-6cb3189c7710.png">
 
